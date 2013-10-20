@@ -1,9 +1,13 @@
-#!/usr/bin/ruby
+require 'rubygems'
+require 'spreadsheet'
+Spreadsheet.client_encoding = 'UTF-8'
 
 def parse_tally_tables (input, file_type, output)
   output_file = File.open(input, 'r')
-  write_file = nil
+  sheet = nil
+  book = Spreadsheet::Workbook.new 
   tables = 0 
+  row = 2
 
   start_regex = /(\d+tally)\s*(\d+)/
   table_regex = /\s(\d*\.\d*E{0,1}(\+|\-)\d*)\s*(\d*\.\d*E{0,1}(\+|\-)\d*)\s*(\d*.\d*)/
@@ -14,26 +18,30 @@ def parse_tally_tables (input, file_type, output)
   lines.each do |line|
     start = line.match(start_regex)
     if(!start.nil?)
-    	write_file = File.open("#{start[1]}#{start[2]}.csv", 'w')
+    	sheet = book.create_worksheet :name => "#{start[1]}#{start[2]}"
       puts "==Parsing Tally Table No.#{start[2]}"
       tables += 1
-    	write_file.write("#{start[1]},#{start[2]},\n\n")
-    	write_file.write("energy,surface current, relative error,\n")
+      sheet.update_row 0, "#{start[1]}", "#{start[2]}"
+    	sheet.update_row 1, "energy","surface current", "relative error"
+      row = 2
     	reading = true
     end
     if(reading)
     	table_data = line.match(table_regex)
     	if(!table_data.nil?)
-        write_file.write("#{table_data[1]},#{table_data[3]},#{table_data[5]},\n")
+        sheet.update_row row, "#{table_data[1]}","#{table_data[3]}","#{table_data[5]}"
+        row += 1
     	else 
     	  ending = line.match(ending_regex)
     	  if(!ending.nil?)
-    	    write_file.write("#{ending[1]},#{ending[2]},#{ending[3]},\n")
+    	    sheet.update_row row, "#{ending[1]}","#{ending[2]}","#{ending[3]}"
     	    reading = false
     	  end
     	end
     end
   end
+  puts "==Writing to #{output}..."
+  book.write(output)
   puts "==Succesfully parsed #{tables} tables."
 end
 
@@ -47,15 +55,17 @@ end
 def interpreter 
   puts "\n"
   print_name
-  puts "===== Version 0.2 ===== \n"
-  puts "Type \"help\" for more info, and \"done\" to finish"
+  puts "===============================================================\n"
+  puts "========================= Version 0.5 ========================= \n"
+  puts "===============================================================\n\n"
+  puts "Type \"help\" for more info, or \"done\" to exit the interpreter"
   puts "\n"
   loop do
     print "> "
     begin 
       line = STDIN.gets
       case line.strip
-        when "done"
+        when "done" 
           puts "\nGoodbye."
           return
         when "help"
@@ -78,8 +88,16 @@ def interpreter
         when "clear"
           print "What would you like to clear out? "
           type = STDIN.gets.strip
-          if(type.include?("spreadsheet") || type.include?("excel") || type.include?("csv"))
-            Dir.new('.').each {|file| if(file.include?("csv")) then File.delete(file) end }
+          if(type.include?("spreadsheet") || type.include?("excel") || type.include?("xls"))
+            puts "Are you sure? (Y/N) "
+            sure = STDIN.gets.strip.downcase
+            if(sure.include?("y")) then
+              Dir.new('.').each {|file| if(file.include?("xls")) then File.delete(file) end }
+            else
+              puts "Nothing was cleared." 
+            end
+          else 
+            puts "Sorry, that file type is not supported yet. Nothing was cleared."
           end
         when "show files"
           Dir.new('.').each {|file| puts "#{file}"}
