@@ -40,7 +40,7 @@ end
 
 def print_version
   puts "===============================================================\n"
-  puts "========================= Version 0.5 ========================= \n"
+  puts "========================= Version 0.7 ========================= \n"
   puts "===============================================================\n\n"
   puts "Type \"help\" for more info, or \"done\" to exit the interpreter"
 end
@@ -60,6 +60,10 @@ def interpreter
         when "done" 
           puts "\nGoodbye."
           return
+        when "test"
+          puts "test"
+          Dir.new('.').each {|file| if(file.include?("xls")) then File.delete(file) end }
+          router("fullsample.txt","tally","spreadsheet", "asdf.xls")
         when "help"
           puts "\nAvailable commands:"
           puts "1. extract -> Extract specific information of an MCNPX output file"
