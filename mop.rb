@@ -1,0 +1,8 @@
+# MCNP Output Parser Execution File
+# Created by Frank Cangialosi for mTC group at UMCP
+# Fall 2013
+
+require './interpreter'
+
+interpreter = Interpreter.new
+interpreter.start
