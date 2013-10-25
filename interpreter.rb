@@ -32,7 +32,7 @@ class Interpreter
           ###
           when "help"
             puts "\nAvailable commands:"
-            puts "1. extract -> Extract specific information of an MCNPX output file"
+            puts "1. parse -> Extract specific information of an MCNPX output file"
             puts "2. clear -> Clear out all files of a given type in the current directory"
             puts "3. show files -> List all the files in your current directory"
             puts "4. done -> exit the shell"
@@ -56,7 +56,7 @@ class Interpreter
           when "show files"
             Dir.new('.').each {|file| puts "#{file}"}
           ###
-          when "extract"
+          when "parse"
             ### 1
             puts "Where is your MCNPX output file?"
             puts "(Type path to file, or just the file name if in the current directory)"
@@ -69,7 +69,7 @@ class Interpreter
               input = STDIN.gets.strip.downcase
             end
             ### 2
-            puts "\nWhat information would you like to extract?" 
+            puts "\nWhat information would you like to parse?" 
             puts "(Options: tally table, photon production table)"
             print ">>> "
             type = STDIN.gets.strip.downcase
@@ -115,7 +115,7 @@ class Interpreter
     end
   end
 
-  # Given the users input for the extract command, calls the correct method of the Parser
+  # Given the users input for the parse command, calls the correct method of the Parser
   def router (input, type, file_type, output)
     if(type.include?('tally'))
       puts "==Extracting tally tables from #{input} into #{output}"

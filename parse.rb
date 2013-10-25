@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'spreadsheet'
+
 Spreadsheet.client_encoding = 'UTF-8'
 
 class Parser
