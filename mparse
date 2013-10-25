@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 # MCNP Output Parser Execution File
 # Created by Frank Cangialosi for mTC group at UMCP
 # Fall 2013

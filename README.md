@@ -9,23 +9,33 @@ Dependencies
 ------------
 Requires Ruby 1.9.3 or higher: https://www.ruby-lang.org/en/downloads/
 
+Installation (OS X)
+---------
+- Install the latest version of ruby
+- Download and unzip mParse project
+- Give the script executable permission: 
+
+
+	chmod +x ./mparse
+
+
+- Add a symlink:
+
+
+	ln -s ~/location_to_folder/mparse /usr/local/bin
+
+
+
 Execution
 ---------
-- Install Ruby
-- Install RubyGems
-- Install spreadsheet gem
+Execute by simply calling
 
-	gem install spreadsheet
-- Run with
+	mparse
 
-	ruby pmcnp.rb
-
-**Note** must be within directory containing scripts when executing
+This will open the mParse interpreter. The interpreter has its own commands, which can be discovered by typing "help" within the interpreter.
+Type "done" at any time to exit mParse. 
 
 Documentation
 -------------
 In progress.
-
-General instructions found by issuing the **help** command after starting the interpreter.
-
 
