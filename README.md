@@ -11,9 +11,14 @@ Requires Ruby 1.9.3 or higher: https://www.ruby-lang.org/en/downloads/
 
 Execution
 ---------
-Run with
+- Install Ruby
+- Install RubyGems
+- Install spreadsheet gem
 
-	ruby mop.rb
+	gem install spreadsheet
+- Run with
+
+	ruby pmcnp.rb
 
 **Note** must be within directory containing scripts when executing
 
